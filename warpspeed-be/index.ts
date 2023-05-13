@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express"
+import promptRouter from "./routes/prompts";
 import dotenv from "dotenv"
 
 dotenv.config();
@@ -6,6 +7,8 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT;
 
+app.use(express.json())
+app.use("/prompts", promptRouter)
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Express + TypeScript Server');
