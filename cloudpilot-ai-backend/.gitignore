@@ -1,0 +1,12 @@
+# Ignore environment variables and setup files
+cback-env
+.env
+
+__pycache__
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+data
+.env
+error_log.txt
