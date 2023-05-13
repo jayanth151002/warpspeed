@@ -73,7 +73,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function PersistentDrawerLeft() {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -98,7 +98,7 @@ export default function PersistentDrawerLeft() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Arcana
+            Sky Bot
           </Typography>
         </Toolbar>
       </AppBar>
@@ -133,10 +133,10 @@ export default function PersistentDrawerLeft() {
               </ListItemButton>
             </ListItem>
           </Link>
-          <Link href="/optimizer" underline="none">
+          <Link href="/" underline="none">
             <ListItem disablePadding>
               <ListItemButton>
-                <ListItemText>Portfolio Optimizer</ListItemText>
+                <ListItemText>wekrjtg</ListItemText>
               </ListItemButton>
             </ListItem>
           </Link>
