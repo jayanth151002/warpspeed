@@ -16,6 +16,8 @@ import {
 } from '@material-ui/core'; // Importing from Material-UI v4
 
 import Final from '../components/Final';
+import Iteration from '../components/Iteration';
+
 
 export default function Generate() {
   return (
@@ -28,8 +30,9 @@ export default function Generate() {
       </Head>
       <main>
         <Container maxWidth="md">
-          <Dashboard />
+          {/* <Dashboard /> */}
           <Stepper />
+          <Iteration />
         </Container>
       </main>
     </>
