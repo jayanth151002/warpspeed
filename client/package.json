@@ -1,0 +1,33 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "export": "next build && next export",
+    "lint": "eslint --ext js,jsx,ts,tsx . --ignore-path .gitignore",
+    "lintfix": "eslint --ext js,jsx,ts,tsx . --fix --ignore-path .gitignore",
+    "configure-husky": "npx husky install && npx husky add .husky/pre-commit \"npx --no-install lint-staged\"",
+    "checkout-develop": "git checkout develop && del-cli --force ./src/aws-exports.js && amplify env checkout develop",
+    "checkout-staging": "git checkout staging && del-cli --force ./src/aws-exports.js && amplify env checkout staging",
+    "checkout-production": "git checkout production && del-cli --force ./src/aws-exports.js && amplify env checkout production"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@material-ui/core": "^4.12.4",
+    "@material-ui/icons": "^4.11.3",
+    "next": "11",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "typescript": "^5.0.4"
+  },
+  "devDependencies": {
+    "@types/react": "17.0.2",
+    "@types/react-dom": "17.0.2"
+  }
+}

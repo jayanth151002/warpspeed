@@ -1,21 +1,22 @@
-mport Head from 'next/head';
-import * as React from 'react';
-import { useState } from 'react';
+import Head from 'next/head';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import styles from '@/styles/Home.module.css';
-import Appbar from '@/components/Appbar';
+
+
+
 import {
-  Box,
   Typography,
   Button,
   TextField,
   InputAdornment,
   Container,
   Grid,
-} from '@mui/material';
+} from '@material-ui/core'; // Importing from Material-UI v4
 
 export default function Home() {
-  const [prompt, setPrompt] = useState<string>('');
+  const [prompt, setPrompt] = useState('');
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log('submit');
@@ -49,10 +50,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Appbar />
         <Container maxWidth="sm">
-          <Box
-            sx={{
+          <div
+            style={{
               minHeight: '100vh',
               display: 'flex',
               flexDirection: 'column',
@@ -89,7 +89,7 @@ export default function Home() {
                 </form>
               </Grid>
             </Grid>
-          </Box>
+          </div>
         </Container>
       </main>
     </>

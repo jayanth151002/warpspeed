@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'San Francisco Pro';
+    src: url('/fonts/SanFranciscoPro-Regular.ttf') format('truetype');
+    /* Add additional font formats if you have them, like woff or woff2 */
+  }
+  
+  body {
+    font-family: 'San Francisco Pro', Arial, sans-serif;
+  }
