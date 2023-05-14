@@ -34,10 +34,6 @@ export default function Home() {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(updateQuestions({ questions: ['temp'] }));
-    dispatch(updateBizProblem({ bizProblem: 'temp' }));
-  }, []);
 
   return (
     <>

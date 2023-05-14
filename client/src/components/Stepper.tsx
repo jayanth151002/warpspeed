@@ -14,6 +14,12 @@ import QuestionModal from './QuestionModal';
 import Iteration from './Iteration';
 import Final from './Final';
 
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import {
+  updateQuestions,
+  updateBizProblem,
+} from '../redux/slices/activeEntities';
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -34,7 +40,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function getSteps() {
   return [
-    'Enter Business Problem',
+    'Business Problem',
     'Get the Requiremtents',
     'Customize the Architecture',
     'Finalize the Architecture',
@@ -57,10 +63,14 @@ function getStepContent(step: number) {
 }
 
 const Step1Component = () => {
+  const bizProblemNew = useAppSelector(
+    (state) => state.activeEntities.bizProblem
+  );
   return (
     <div>
-      <h2>Step 1</h2>
-      <BizProblem />
+      <Typography variant="h6" gutterBottom>
+        {bizProblemNew}
+      </Typography>
     </div>
   );
 };

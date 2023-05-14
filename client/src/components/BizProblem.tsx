@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import router from 'next/router';
 
 import axios from 'axios';
 
@@ -18,12 +19,11 @@ import {
 } from '../redux/slices/activeEntities';
 
 export default function BizProblem() {
-  const backendUrl = 'http://localhost:5000';
-
   const questionsNew = useAppSelector(
     (state) => state.activeEntities.questions
   );
 
+  const [bizProblem, setBizProblem] = useState('');
   const bizProblemNew = useAppSelector(
     (state) => state.activeEntities.bizProblem
   );
@@ -33,10 +33,11 @@ export default function BizProblem() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log('submit');
+    dispatch(updateBizProblem({ bizProblem: bizProblem }));
 
     axios
       .post(
-        `${backendUrl}/prompts/generateQuestions`,
+        `${process.env.BACKEND_URL}/prompts/generateQuestions`,
         {
           bizProb: bizProblemNew,
         },
@@ -49,6 +50,7 @@ export default function BizProblem() {
       .then((res) => {
         console.log(res.data);
         dispatch(updateQuestions({ questions: res.data.questions }));
+        router.push('/generate');
       })
       .catch((err) => {
         console.log(err);
@@ -59,7 +61,7 @@ export default function BizProblem() {
     <form onSubmit={handleSubmit} noValidate autoComplete="off">
       <TextField
         label="Send the Business Problem"
-        onChange={(e) => dispatch(updateBizProblem({ bizProblem: e.target.value }))} // dispatching the action to update the state
+        onChange={(e) => setBizProblem(e.target.value)} // dispatching the action to update the state
         fullWidth
         variant="outlined"
         InputProps={{

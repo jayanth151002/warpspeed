@@ -42,18 +42,27 @@ interface Question {
 const gernericQuestions: Question[] = [
   {
     id: 1,
-    question: 'Question 1',
-    options: ['Option 1', 'Option 2'],
+    question:
+      "Can you describe your application's workload, the anticipated traffic patterns, and the required level of availability to ensure optimal performance and user experience?",
+    options: [
+      'Real-Time Analytics (Continuous Data Flow)',
+      'Pre-processed Data Retrieval',
+    ],
   },
   {
     id: 2,
-    question: 'Question 2',
-    options: ['Option 1', 'Option 2'],
+    question:
+      'What are the expected growth projections for your application, and what are the key scaling factors (e.g. number of users, data volume, or computational requirements) to consider in the architecture design?',
+    options: [
+      'Stochastic usage patterns (High fluctuation in traffic and data transfer)',
+      'Steady usage pattern (Almost constant traffic and data transfer)',
+    ],
   },
   {
     id: 3,
-    question: 'Question 3',
-    options: ['Option 1', 'Option 2'],
+    question:
+      'What are your expectations and requirements regarding manageability, such as monitoring, maintenance, and cost-effectiveness, as well as any specific compliance or security concerns?',
+    options: ['Low cost projection', 'Low computational requirement'],
   },
 ];
 
@@ -61,13 +70,14 @@ import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { updateQuestions, updateAnswers } from '../redux/slices/activeEntities';
 
 const QuestionModal: React.FC = () => {
-
   const backendUrl = 'http://localhost:5000';
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [prompt, setPrompt] = useState('');
+
+  const bizProblemNew = useAppSelector((state) => state.activeEntities.bizProblem);
 
   const questionsNew = useAppSelector(
     (state) => state.activeEntities.questionsNew
@@ -121,9 +131,10 @@ const QuestionModal: React.FC = () => {
 
     axios
       .post(
-        `${backendUrl}/prompts/generateQuestions`,
+        `${backendUrl}/prompts/generateArchitecture`,
         {
-          bizProb: bizProblemNew,
+          bizProb : bizProblemNew,
+          answers: answers,
         },
         {
           headers: {
@@ -202,7 +213,7 @@ const QuestionModal: React.FC = () => {
                   }}
                 />
               </>
-            ) : currentQuestion < questionsNew.length - 1 ? (
+            ) : (currentQuestion < questionsNew.length + 3 - 1) ? (
               <>
                 <Typography variant="h6" component="h2" gutterBottom>
                   {questionsNew[currentQuestion - 3]}

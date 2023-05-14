@@ -35,6 +35,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Architecture = () => {
+
+  const backendUrl = 'https://be-api.cloudpilot.coursepanel.in'
   const classes = useStyles();
 
   {/*

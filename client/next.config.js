@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+  env: {
+    BACKEND_URL: 'https://be-api.cloudpilot.coursepanel.in',
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
