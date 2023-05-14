@@ -6,5 +6,7 @@ const apiUrl = process.env.API_URL as string
 
 export const endpoints = {
     CHATCOMPLETION: "https://api.openai.com/v1/chat/completions",
-    GEN_ARCH: apiUrl + "/generateArchitecture"
+    GEN_ARCH: apiUrl + "/generateArchitecture",
+    GEN_SYS_DES: apiUrl + "/generateSysDes",
+    GEN_IAC: apiUrl + "/generateIaC",
 } as const

@@ -2,13 +2,11 @@ import axios from "axios";
 import { Request, Response } from "express";
 import { endpoints } from "../enums/endpoints";
 
-export const generateArchitectureService = async (req: Request, res: Response) => {
-    const bizProb: string = req.body.bizProb;
-    const answers: string[] = req.body.answers;
-    const input = bizProb + ". " + answers.join(". ");
-    axios.get(endpoints.GEN_ARCH, {
+export const generateSysDesService = async (req: Request, res: Response) => {
+    const recentArchitecture: string = req.body.recentArchitecture;
+    axios.get(endpoints.GEN_SYS_DES, {
         data: {
-            prompt: input
+            prompt: recentArchitecture
         },
         headers: {
             "Content-Type": "application/json"
