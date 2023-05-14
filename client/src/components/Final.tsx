@@ -109,10 +109,9 @@ const Final = () => {
           <strong>Summary:</strong> {project.summary}
         </Typography>
       </Container>
-      {/* <Container>
-        <Button onClick> </Button>
-      </Container> */}
-
+      <Container>
+        <Button >Get image</Button>
+      </Container>
     </Paper>
   );
 };
