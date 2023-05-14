@@ -1,4 +1,3 @@
-import Architecture from '@/components/Architecture';
 import { createSlice } from '@reduxjs/toolkit';
 
 interface key_features {
