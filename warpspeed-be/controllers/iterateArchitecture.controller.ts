@@ -14,7 +14,7 @@ export const iterateArchitectureService = async (req: Request, res: Response) =>
     const { bizProb, recentArchitecture, constraint }: RequestBody = req.body;
    const input = getIteratedArchitecturePrompt(bizProb, recentArchitecture, constraint);
     apiClient.post(endpoints.CHATCOMPLETION, {
-        model: "gpt-4-0314",
+        model: "gpt-3.5-turbo",
         messages: [{ "role": "user", "content": input }],
     })
         .then((result) => {

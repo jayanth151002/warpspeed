@@ -7,7 +7,7 @@ export const generateQuestionsService = async (req: Request, res: Response) => {
     const bizProb: string = req.body.bizProb;
     apiClient
         .post(endpoints.CHATCOMPLETION, {
-            model: "gpt-4-0314",
+            model: "gpt-3.5-turbo",
             messages: [{ "role": "user", "content": getGenerateQuestionsPrompt(bizProb) }],
             temperature: 0,
             max_tokens: 2048,
