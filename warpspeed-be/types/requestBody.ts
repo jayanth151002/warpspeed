@@ -5,5 +5,5 @@ export interface ChatType {
 
 export interface RequestBody {
     chat: ChatType[],
-    bizIssue: string
+    bizProb: string
 }

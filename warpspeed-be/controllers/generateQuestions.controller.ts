@@ -4,11 +4,11 @@ import { endpoints } from "../enums/endpoints";
 import { getGenerateQuestionsPrompt } from "../utils/getGenerateQuestionsPrompt";
 
 export const generateQuestionsService = async (req: Request, res: Response) => {
-    const bizIssue: string = req.body.bizIssue;
+    const bizProb: string = req.body.bizProb;
     apiClient
         .post(endpoints.CHATCOMPLETION, {
             model: "gpt-4-0314",
-            messages: [{ "role": "user", "content": getGenerateQuestionsPrompt(bizIssue) }],
+            messages: [{ "role": "user", "content": getGenerateQuestionsPrompt(bizProb) }],
             temperature: 0,
             max_tokens: 2048,
         })
