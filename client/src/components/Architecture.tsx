@@ -9,6 +9,8 @@ import {
   Divider,
 } from '@material-ui/core';
 
+import axios from 'axios';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -35,6 +37,16 @@ const useStyles = makeStyles((theme) => ({
 const Architecture = () => {
   const classes = useStyles();
 
+  {/*
+{
+  answer:project,
+  source_docs:[
+    {excerpt:string,
+    source:string,
+    title:string}
+  ]
+}
+*/}
   // Dummy project data
   const project = {
     title: 'Name of the Project',
@@ -59,6 +71,8 @@ const Architecture = () => {
     ],
     summary: 'Project summary goes here...',
   };
+
+
 
   return (
     <Paper elevation={3} className={classes.root}>

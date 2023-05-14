@@ -14,6 +14,8 @@ import {
   Radio,
 } from '@material-ui/core';
 
+import axios from 'axios';
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     modalContainer: {
@@ -59,6 +61,8 @@ import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { updateQuestions, updateAnswers } from '../redux/slices/activeEntities';
 
 const QuestionModal: React.FC = () => {
+
+  const backendUrl = 'http://localhost:5000';
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -114,6 +118,26 @@ const QuestionModal: React.FC = () => {
   const handleSubmit = () => {
     console.log('Answers:', answers);
     dispatch(updateQuestions(answers));
+
+    axios
+      .post(
+        `${backendUrl}/prompts/generateQuestions`,
+        {
+          bizProb: bizProblemNew,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        dispatch(updateQuestions({ questions: res.data.questions }));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     setAnswers([]);
     setOpen(false);
   };
@@ -134,7 +158,7 @@ const QuestionModal: React.FC = () => {
             {currentQuestionObj.question}
           </Typography> */}
 
-          <FormControl component="fieldset" >
+          <FormControl component="fieldset">
             {currentQuestion < 3 ? (
               <>
                 {/* for the gernericQuestions */}
@@ -178,7 +202,7 @@ const QuestionModal: React.FC = () => {
                   }}
                 />
               </>
-            ) : (
+            ) : currentQuestion < questionsNew.length - 1 ? (
               <>
                 <Typography variant="h6" component="h2" gutterBottom>
                   {questionsNew[currentQuestion - 3]}
@@ -197,7 +221,33 @@ const QuestionModal: React.FC = () => {
                           type="submit"
                           onSubmit={handleAnswerSubmit}
                         >
-                          Submit
+                          Next
+                        </Button>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </>
+            ) : (
+              <>
+                <Typography variant="h6" component="h2" gutterBottom>
+                  {questionsNew[currentQuestion - 3]}
+                </Typography>
+                <TextField
+                  label="Send the prompt"
+                  onChange={(e) => setPrompt(e.target.value)}
+                  fullWidth
+                  variant="outlined"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          type="submit"
+                          onSubmit={handleSubmit}
+                        >
+                          Next
                         </Button>
                       </InputAdornment>
                     ),
