@@ -15,9 +15,7 @@ import {
   Grid,
 } from '@material-ui/core'; // Importing from Material-UI v4
 
-import Final from '../components/Final';
-import Iteration from '../components/Iteration';
-
+import Final from '../components/Architecture';
 
 export default function Generate() {
   return (
@@ -29,10 +27,18 @@ export default function Generate() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Container maxWidth="md">
-          {/* <Dashboard /> */}
+        <div style={{ paddingBottom: '80px' }}>
+          <Dashboard />
+        </div>
+        <Container
+          maxWidth="md"
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+          }}
+        >
           <Stepper />
-          <Iteration />
         </Container>
       </main>
     </>

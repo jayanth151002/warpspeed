@@ -9,10 +9,8 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
 import BizProblem from './BizProblem';
-import Architecture from './Architecture';
+import Final from './Architecture';
 import QuestionModal from './QuestionModal';
-import Iteration from './Iteration';
-import Final from './Final';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,12 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 function getSteps() {
-  return [
-    'Enter Business Problem',
-    'Get the Requiremtents',
-    'Available Data',
-    'Finalize the Solution',
-  ];
+  return ['Select campaign settings', 'Create an ad group', 'Create an ad'];
 }
 
 function getStepContent(step: number) {
@@ -49,8 +42,6 @@ function getStepContent(step: number) {
       return <Step2Component />;
     case 2:
       return <Step3Component />;
-    case 3:
-      return <Step4Component />;
     default:
       return 'Unknown step';
   }
@@ -76,14 +67,7 @@ const Step2Component = () => {
 const Step3Component = () => {
   return (
     <div>
-      <Architecture />
-    </div>
-  );
-};
-const Step4Component = () => {
-  return (
-    <div>
-      <Iteration />
+      <Final />
     </div>
   );
 };
@@ -91,35 +75,22 @@ const Step4Component = () => {
 export default function VerticalLinearStepper() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
-  const [show, setShow] = React.useState(false);
   const steps = getSteps();
 
   const handleNext = () => {
-    setShow(false);
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleSubmit = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setShow(true);
   };
 
   const handleBack = () => {
-    setShow(false);
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
   const handleReset = () => {
-    setShow(false);
     setActiveStep(0);
   };
 
   const handleStepClick = (step: any) => {
-    if (step > activeStep) {
-      setShow(false);
-      return;
-    }
-    setShow(false);
+    if (step > activeStep) return;
     setActiveStep(step);
   };
 
@@ -142,25 +113,14 @@ export default function VerticalLinearStepper() {
                   >
                     Back
                   </Button>
-                  {activeStep === steps.length - 1 ? (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleSubmit}
-                      className={classes.button}
-                    >
-                      Submit
-                    </Button>
-                  ) : (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleNext}
-                      className={classes.button}
-                    >
-                      Next
-                    </Button>
-                  )}
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleNext}
+                    className={classes.button}
+                  >
+                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                  </Button>
                 </div>
               </div>
             </StepContent>
@@ -170,16 +130,11 @@ export default function VerticalLinearStepper() {
       {activeStep === steps.length && (
         <Paper square elevation={0} className={classes.resetContainer}>
           <Typography>All steps completed - you&apos;re finished</Typography>
-          <Button
-            variant="contained"
-            onClick={handleReset}
-            className={classes.button}
-          >
+          <Button onClick={handleReset} className={classes.button}>
             Reset
           </Button>
         </Paper>
       )}
-      {show && <Final />}
     </div>
   );
 }

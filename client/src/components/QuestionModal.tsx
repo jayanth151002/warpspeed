@@ -60,7 +60,7 @@ const QuestionModal: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string>>({});
-
+  
   const handleOpen = () => {
     setOpen(true);
   };
@@ -80,6 +80,13 @@ const QuestionModal: React.FC = () => {
       ...prevAnswers,
       [currentQuestion]: event.target.value,
     }));
+   
+    if(currentQuestion < questions.length - 1){
+      handleNextQuestion();
+    }
+    else{
+      handleSubmit();
+    }
   };
 
   const handleSubmit = () => {

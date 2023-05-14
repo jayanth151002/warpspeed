@@ -7,6 +7,7 @@ import {
   ListItem,
   ListItemText,
   Divider,
+  Container,
 } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProjectDetails = () => {
+const Final = () => {
   const classes = useStyles();
 
   // Dummy project data
@@ -62,48 +63,55 @@ const ProjectDetails = () => {
 
   return (
     <Paper elevation={3} className={classes.root}>
-      <Typography variant="h4" gutterBottom>
-        {project.title}
-      </Typography>
-      <Typography variant="body1" gutterBottom>
-        {project.introduction}
-      </Typography>
+      <Container>
+        <Typography variant="h4" gutterBottom>
+          {project.title}
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          {project.introduction}
+        </Typography>
 
-      {project.layers.map((layer) => (
-        <div key={layer.name} className={classes.layer}>
-          <Typography variant="h5" className={classes.layerName}>
-            Layer: {layer.name}
-          </Typography>
-          <Typography variant="body1" className={classes.listItemText}>
-            <strong>Purpose:</strong> {layer.purpose}
-          </Typography>
-          <Typography variant="body1" className={classes.listItemText}>
-            <strong>Services:</strong> {layer.services.join(', ')}
-          </Typography>
-          <Typography variant="body1" className={classes.listItemText}>
-            <strong>Key Features:</strong>
-          </Typography>
-          <List dense>
-            {layer.key_features.map((feature) => (
-              <React.Fragment key={feature.feature}>
-                <ListItem className={classes.listItem}>
-                  <ListItemText
-                    primary={feature.feature}
-                    secondary={feature.explanation}
-                  />
-                </ListItem>
-                <Divider />
-              </React.Fragment>
-            ))}
-          </List>
-        </div>
-      ))}
+        {project.layers.map((layer) => (
+          <div key={layer.name} className={classes.layer}>
+            <Typography variant="h5" className={classes.layerName}>
+              Layer: {layer.name}
+            </Typography>
+            <Typography variant="body1" className={classes.listItemText}>
+              <strong>Purpose:</strong> {layer.purpose}
+            </Typography>
+            <Typography variant="body1" className={classes.listItemText}>
+              <strong>Services:</strong> {layer.services.join(', ')}
+            </Typography>
+            <Typography variant="body1" className={classes.listItemText}>
+              <strong>Key Features:</strong>
+            </Typography>
+            <List dense>
+              {layer.key_features.map((feature) => (
+                <React.Fragment key={feature.feature}>
+                  <ListItem className={classes.listItem}>
+                    <ListItemText
+                      primary={feature.feature}
+                      secondary={feature.explanation}
+                    />
+                  </ListItem>
+                  <Divider />
+                </React.Fragment>
+              ))}
+            </List>
+          </div>
+        ))}
 
-      <Typography variant="body1" className={classes.summary}>
-        <strong>Summary:</strong> {project.summary}
-      </Typography>
+        <Typography variant="body1" className={classes.summary}>
+          <strong>Summary:</strong> {project.summary}
+        </Typography>
+      </Container>
+      <Container>
+        {/* <Button>
+            jsdfkg
+        </Button> */}
+      </Container>
     </Paper>
   );
 };
 
-export default ProjectDetails;
+export default Final;

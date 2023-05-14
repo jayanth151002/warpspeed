@@ -11,16 +11,17 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
+// google login
+import {
+  GoogleLogin,
+  GoogleLoginResponse,
+  GoogleLoginResponseOffline,
+} from 'react-google-login';
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      display: 'flex',
-    },
-    appBar: {
-      zIndex: theme.zIndex.drawer + 1,
-    },
     menuButton: {
       marginRight: theme.spacing(2),
     },
@@ -31,27 +32,42 @@ const useStyles = makeStyles((theme: Theme) =>
       width: drawerWidth,
       flexShrink: 0,
     },
-    drawerPaper: {
-      width: drawerWidth,
-    },
-    content: {
-      flexGrow: 1,
-      padding: theme.spacing(3),
-    },
   })
 );
 
 export default function Dashboard() {
   const classes = useStyles();
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  const handleLoginSuccess = (
+    response: GoogleLoginResponse | GoogleLoginResponseOffline
+  ) => {
+    console.log(response);
+    setLoggedIn(true);
+  };
+
+  const handleLoginFailure = (error: any) => {
+    console.error(error);
+    // Handle login failure
+  };
+
+  const handleLogout = () => {
+    setLoggedIn(false);
+    // Add logout logic here
+  };
 
   const handleDrawerToggle = () => {
     setOpenDrawer(!openDrawer);
   };
 
   return (
-    <div className={classes.root}>
-      <AppBar position="fixed" className={classes.appBar}>
+    <div
+      style={{
+        display: 'flex',
+      }}
+    >
+      <AppBar position="fixed">
         <Toolbar>
           <IconButton
             edge="start"
@@ -63,12 +79,31 @@ export default function Dashboard() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            News
+            Cloud Pilot
           </Typography>
-          <Button color="inherit">Login</Button>
+          {loggedIn ? (
+            <>
+              <Typography variant="h6">You are logged in!</Typography>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleLogout}
+              >
+                Logout
+              </Button>
+            </>
+          ) : (
+            <GoogleLogin
+              clientId="wrapspeed"
+              buttonText="Login"
+              onSuccess={handleLoginSuccess}
+              onFailure={handleLoginFailure}
+              cookiePolicy="single_host_origin"
+            />
+          )}
         </Toolbar>
       </AppBar>
-      <Drawer
+      {/* <Drawer
         className={classes.drawer}
         variant="temporary"
         anchor="left"
@@ -77,6 +112,7 @@ export default function Dashboard() {
         classes={{
           paper: classes.drawerPaper,
         }}
+        dis
       >
         <List>
           <ListItem button>
@@ -89,11 +125,7 @@ export default function Dashboard() {
             <ListItemText primary="Item 3" />
           </ListItem>
         </List>
-      </Drawer>
-      <main className={classes.content}>
-        <Toolbar />
-        {/* Your content goes here */}
-      </main>
+      </Drawer> */}
     </div>
   );
 }

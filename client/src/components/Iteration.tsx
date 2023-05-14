@@ -17,7 +17,6 @@ interface IterationProps {
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    height: '100vh',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-end',
@@ -58,14 +57,15 @@ const useStyles = makeStyles((theme) => ({
 const Iteration: React.FC<IterationProps> = () => {
   const initialConversation: Message[] = [
     {
-        role: 'bot',
-        content: 'Welcome to the chat bot! Type a prompt to get started.',
+      role: 'bot',
+      content: 'Welcome to the chat bot! Type a prompt to get started.',
     },
-    ];
-    const initialCostDetail: string | null = null;
+  ];
+  const initialCostDetail: string | null = null;
 
   const classes = useStyles();
-  const [conversation, setConversation] = useState<Message[]>(initialConversation);
+  const [conversation, setConversation] =
+    useState<Message[]>(initialConversation);
   const [input, setInput] = useState('');
   const [costDetail, setCostDetail] = useState<string | null>(
     initialCostDetail

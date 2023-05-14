@@ -1,9 +1,13 @@
 import Head from 'next/head';
 import React, { useState } from 'react';
 import Image from 'next/image';
-import styles from '@/styles/Home.module.css';
+import styles from '../styles/Home.module.css';
+import Box from '@material-ui/core/Box';
 
+import BizProblem from '../components/BizProblem';
+import Dashboard from '../components/Dashboard';
 
+import axios from 'axios';
 
 import {
   Typography,
@@ -15,31 +19,9 @@ import {
 } from '@material-ui/core'; // Importing from Material-UI v4
 
 export default function Home() {
-  const [prompt, setPrompt] = useState('');
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log('submit');
-    console.log(prompt);
-
-    // axios
-    //   .post(
-    //     `http://localhost:5000/image`,
-    //     {
-
-    //     },
-    //     {
-    //       headers: {
-    //         // 'Content-Type': 'multipart/form-data',
-    //         'Content-Type': 'application/json',
-    //       },
-    //     }
-    //   )
-    //   .then((res) => {
-    //     console.log(res.data);
-
-    //   });
-  };
+  const backendUrl = 'http://localhost:5000';
+  const [bizProb, setPrompt] = useState('');
+  const [questions, setQuestions] = useState();
 
   return (
     <>
@@ -51,9 +33,9 @@ export default function Home() {
       </Head>
       <main>
         <Container maxWidth="sm">
+          <Dashboard />
           <div
             style={{
-              minHeight: '100vh',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
@@ -66,27 +48,7 @@ export default function Home() {
                 </Typography>
               </Grid>
               <Grid item xs={12}>
-                <form onSubmit={handleSubmit} noValidate autoComplete="off">
-                  <TextField
-                    label="Send the prompt"
-                    onChange={(e) => setPrompt(e.target.value)}
-                    fullWidth
-                    variant="outlined"
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            type="submit"
-                          >
-                            Submit
-                          </Button>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                </form>
+                <BizProblem />
               </Grid>
             </Grid>
           </div>
