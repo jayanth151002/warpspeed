@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Iteration: React.FC<IterationProps> = () => {
+const Iteration = () => {
   const initialConversation: Message[] = [
     {
       role: 'bot',

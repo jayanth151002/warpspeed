@@ -1,17 +1,34 @@
+import Architecture from '@/components/Architecture';
 import { createSlice } from '@reduxjs/toolkit';
 
+interface key_features {
+  feature: string;
+  explanation: string;
+}
+interface Layer {
+  name: string;
+  services: string[];
+  purpose: string;
+  key_features: key_features[];
+}
+interface Architecture {
+  title: string;
+  introduction: string;
+  layers: Layer[];
+  summary: string;
+}
 interface activeEntitiesState {
   bizProblem: string;
   questions: string[];
   answers: string[];
-  architecture: string;
+  architecture: Architecture;
 }
 
 const initialState: activeEntitiesState = {
   bizProblem: '',
   questions: [],
   answers: [],
-  architecture: '',
+  architecture: {} as Architecture,
 };
 
 const exampleSlice = createSlice({
@@ -29,10 +46,14 @@ const exampleSlice = createSlice({
     },
     updateArchitecture: (state, action) => {
       state.architecture = action.payload.architecture;
-    }
-    
+    },
   },
 });
 
-export const { updateQuestions, updateBizProblem , updateAnswers, updateArchitecture} = exampleSlice.actions;
+export const {
+  updateQuestions,
+  updateBizProblem,
+  updateAnswers,
+  updateArchitecture,
+} = exampleSlice.actions;
 export default exampleSlice.reducer;

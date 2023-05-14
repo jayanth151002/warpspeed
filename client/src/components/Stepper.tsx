@@ -36,8 +36,8 @@ function getSteps() {
   return [
     'Enter Business Problem',
     'Get the Requiremtents',
-    'Available Data',
-    'Finalize the Solution',
+    'Customize the Architecture',
+    'Finalize the Architecture',
   ];
 }
 
