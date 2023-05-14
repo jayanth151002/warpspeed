@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import {
   Button,
@@ -37,7 +37,7 @@ interface Question {
   options: string[];
 }
 
-const questions: Question[] = [
+const gernericQuestions: Question[] = [
   {
     id: 1,
     question: 'Question 1',
@@ -55,12 +55,27 @@ const questions: Question[] = [
   },
 ];
 
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { updateQuestions, updateAnswers } from '../redux/slices/activeEntities';
+
 const QuestionModal: React.FC = () => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState<Record<number, string>>({});
-  
+  const [answers, setAnswers] = useState([]);
+  const [prompt, setPrompt] = useState('');
+
+  const questionsNew = useAppSelector(
+    (state) => state.activeEntities.questionsNew
+  );
+
+  let queLength = 0;
+  if (questionsNew) {
+    queLength = questionsNew.length;
+  }
+  const answersNew = useAppSelector((state) => state.activeEntities.answers);
+  const dispatch = useAppDispatch();
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -76,25 +91,32 @@ const QuestionModal: React.FC = () => {
   };
 
   const handleAnswerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAnswers((prevAnswers) => ({
-      ...prevAnswers,
-      [currentQuestion]: event.target.value,
-    }));
-   
-    if(currentQuestion < questions.length - 1){
+    console.log(currentQuestion);
+    setAnswers((prevAnswers) => [...prevAnswers, event.target.value]);
+    if (currentQuestion < queLength + 3 - 1) {
       handleNextQuestion();
+    } else {
+      handleSubmit();
     }
-    else{
+  };
+
+  const handleAnswerSubmit = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(currentQuestion);
+    setAnswers((prevAnswers) => [...prevAnswers, prompt]);
+    setPrompt('');
+    if (currentQuestion < queLength + 3 - 1) {
+      handleNextQuestion();
+    } else {
       handleSubmit();
     }
   };
 
   const handleSubmit = () => {
     console.log('Answers:', answers);
-    handleClose();
+    dispatch(updateQuestions(answers));
+    setAnswers([]);
+    setOpen(false);
   };
-
-  const currentQuestionObj = questions[currentQuestion];
 
   return (
     <div>
@@ -108,44 +130,83 @@ const QuestionModal: React.FC = () => {
         className={classes.modalContainer}
       >
         <div className={classes.modalContent}>
-          <Typography variant="h6" component="h2" gutterBottom>
-            {currentQuestionObj.question}
-          </Typography>
           {/* <Typography variant="body1" gutterBottom>
             {currentQuestionObj.question}
           </Typography> */}
-          <FormControl component="fieldset">
-            <RadioGroup
-              name="answer"
-              value={answers[currentQuestion] || ''}
-              onChange={handleAnswerChange}
-            >
-              {currentQuestionObj.options.map((option, index) => (
-                <FormControlLabel
-                  key={index}
-                  value={option}
-                  control={<Radio />}
-                  label={option}
+
+          <FormControl component="fieldset" >
+            {currentQuestion < 3 ? (
+              <>
+                {/* for the gernericQuestions */}
+                <Typography variant="h6" component="h2" gutterBottom>
+                  {gernericQuestions[currentQuestion].question}
+                </Typography>
+                <RadioGroup
+                  name="answer"
+                  value={answers[currentQuestion] || ''}
+                  onChange={handleAnswerChange}
+                >
+                  {gernericQuestions[currentQuestion].options.map(
+                    (option, index) => (
+                      <FormControlLabel
+                        key={index}
+                        value={option}
+                        control={<Radio />}
+                        label={option}
+                      />
+                    )
+                  )}
+                </RadioGroup>
+                <TextField
+                  label="Send the prompt"
+                  onChange={(e) => setPrompt(e.target.value)}
+                  fullWidth
+                  variant="outlined"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          type="submit"
+                          onClick={handleAnswerSubmit}
+                        >
+                          Submit
+                        </Button>
+                      </InputAdornment>
+                    ),
+                  }}
                 />
-              ))}
-            </RadioGroup>
-            <TextField
-              label="Send the prompt"
-              onChange={(e) => setPrompt(e.target.value)}
-              fullWidth
-              variant="outlined"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <Button variant="contained" color="primary" type="submit">
-                      Submit
-                    </Button>
-                  </InputAdornment>
-                ),
-              }}
-            />
+              </>
+            ) : (
+              <>
+                <Typography variant="h6" component="h2" gutterBottom>
+                  {questionsNew[currentQuestion - 3]}
+                </Typography>
+                <TextField
+                  label="Send the prompt"
+                  onChange={(e) => setPrompt(e.target.value)}
+                  fullWidth
+                  variant="outlined"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          type="submit"
+                          onSubmit={handleAnswerSubmit}
+                        >
+                          Submit
+                        </Button>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </>
+            )}
           </FormControl>
-          {currentQuestion < questions.length - 1 ? (
+          {/* {currentQuestion < questionsNew.length - 1 ? (
             <Button
               variant="contained"
               color="primary"
@@ -157,7 +218,7 @@ const QuestionModal: React.FC = () => {
             <Button variant="contained" color="primary" onClick={handleSubmit}>
               Submit
             </Button>
-          )}
+          )} */}
         </div>
       </Modal>
     </div>

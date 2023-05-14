@@ -11,21 +11,34 @@ import {
   Grid,
 } from '@material-ui/core'; // Importing from Material-UI v4
 
-export default function BizProblem({}) {
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import {
+  updateQuestions,
+  updateBizProblem,
+} from '../redux/slices/activeEntities';
+
+export default function BizProblem() {
   const backendUrl = 'http://localhost:5000';
-  const [bizProb, setBizProb] = useState('');
-  const [questions, setQuestions] = useState({});
+
+  const questionsNew = useAppSelector(
+    (state) => state.activeEntities.questions
+  );
+
+  const bizProblemNew = useAppSelector(
+    (state) => state.activeEntities.bizProblem
+  );
+
+  const dispatch = useAppDispatch();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log('submit');
-    console.log(bizProb);
 
     axios
       .post(
         `${backendUrl}/prompts/generateQuestions`,
         {
-          bizProb: bizProb,
+          bizProb: bizProblemNew,
         },
         {
           headers: {
@@ -35,7 +48,10 @@ export default function BizProblem({}) {
       )
       .then((res) => {
         console.log(res.data);
-        setQuestions(res.data);
+        dispatch(updateQuestions({ questions: res.data.questions }));
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
@@ -43,7 +59,7 @@ export default function BizProblem({}) {
     <form onSubmit={handleSubmit} noValidate autoComplete="off">
       <TextField
         label="Send the Business Problem"
-        onChange={(e) => setBizProb(e.target.value)}
+        onChange={(e) => dispatch(updateBizProblem({ bizProblem: e.target.value }))} // dispatching the action to update the state
         fullWidth
         variant="outlined"
         InputProps={{
