@@ -14,20 +14,15 @@ export const generateArchitectureService = async (req: Request, res: Response) =
     })
         .then((result) => {
             const data = result.data.choices[0].message.content
-            axios.get(endpoints.GEN_ARCH, {
-                data: {
-                    prompt: data
-                },
-                headers: {
-                    "Content-Type": "application/json"
-                }
+            axios.post(endpoints.GEN_ARCH, {
+                prompt: data
             })
                 .then((result) => {
                     const data = result.data
                     res.json(data);
                 })
                 .catch((err) => {
-                    res.json(err.message);
+                    res.json(err);
                 });
         })
         .catch((err) => {

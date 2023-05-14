@@ -4,7 +4,7 @@ import { endpoints } from "../enums/endpoints";
 
 export const generateIaCService = async (req: Request, res: Response) => {
     const recentArchitecture: string = req.body.recentArchitecture;
-    axios.get(endpoints.GEN_IAC, {
+    axios.post(endpoints.GEN_IAC, {
         data: {
             prompt: recentArchitecture
         },

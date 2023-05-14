@@ -4,7 +4,7 @@ import { endpoints } from "../enums/endpoints";
 
 export const generateSysDesService = async (req: Request, res: Response) => {
     const recentArchitecture: string = req.body.recentArchitecture;
-    axios.get(endpoints.GEN_SYS_DES, {
+    axios.post(endpoints.GEN_SYS_DES, {
         data: {
             prompt: recentArchitecture
         },
