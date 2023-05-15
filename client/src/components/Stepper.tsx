@@ -7,6 +7,7 @@ import StepContent from '@material-ui/core/StepContent';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import { PDFDownloadLink, BlobProvider } from '@react-pdf/renderer';
 
 import BizProblem from './BizProblem';
 import Architecture from './Architecture';
@@ -19,6 +20,10 @@ import {
   updateQuestions,
   updateBizProblem,
 } from '../redux/slices/activeEntities';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+import ProjectPDF from './FullReport';
+import { project } from '../constants';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -102,11 +107,17 @@ export default function VerticalLinearStepper() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const [show, setShow] = React.useState(false);
+  const { bizProblem } = useSelector((state: any) => state.activeEntities)
   const steps = getSteps();
 
-  const handleNext = () => {
+  const handleNext = async () => {
     setShow(false);
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    console.log('I WAS CLICKED')
+    const res = await axios.post("https://api.cloudpilot.coursepanel.in/get-cloud-architecture", {
+      prompt: bizProblem
+    })
+    await console.log(res.data)
   };
 
   const handleSubmit = () => {
@@ -124,9 +135,9 @@ export default function VerticalLinearStepper() {
     setActiveStep(0);
   };
 
-  const handleStepClick = (step: any) => {
+  const handleStepClick = async (step: any) => {
     if (step > activeStep) {
-      setShow(false);
+      setShow(false)
       return;
     }
     setShow(false);
@@ -153,14 +164,27 @@ export default function VerticalLinearStepper() {
                     Back
                   </Button>
                   {activeStep === steps.length - 1 ? (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleSubmit}
-                      className={classes.button}
-                    >
-                      Submit
-                    </Button>
+                    <>
+                      <h1>Download PDF</h1>
+                      <BlobProvider document={<ProjectPDF />}>
+                        {({ blob, url, loading, error }) =>
+                          false ? (
+                            'Loading document...'
+                          ) : (
+                            <PDFDownloadLink
+                              document={<ProjectPDF />}
+                              fileName="project.pdf"
+                            >
+                              {({ blob, url, loading, error }) => (
+                                <Button variant="contained" color="primary">
+                                  Download PDF
+                                </Button>
+                              )}
+                            </PDFDownloadLink>
+                          )
+                        }
+                      </BlobProvider>
+                    </>
                   ) : (
                     <Button
                       variant="contained"

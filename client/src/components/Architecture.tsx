@@ -1,124 +1,100 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
+  Card,
+  CardContent,
   Typography,
-  Paper,
   List,
   ListItem,
   ListItemText,
   Divider,
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  ExpansionPanelDetails,
 } from '@material-ui/core';
-
-import axios from 'axios';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { project } from '../constants'
+import CodeDisplay from './Code';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
-    padding: theme.spacing(3),
+    flexGrow: 1,
+  },
+  title: {
     marginBottom: theme.spacing(2),
   },
   layer: {
-    marginBottom: theme.spacing(4),
+    marginTop: theme.spacing(2),
   },
-  layerName: {
-    marginBottom: theme.spacing(2),
-  },
-  listItem: {
-    marginBottom: theme.spacing(2),
-  },
-  listItemText: {
+  layerTitle: {
     marginBottom: theme.spacing(1),
   },
-  summary: {
-    marginTop: theme.spacing(4),
+  features: {
+    marginLeft: theme.spacing(1),
+  },
+  expansionPanel: {
+    marginTop: theme.spacing(1),
   },
 }));
 
 const Architecture = () => {
-
-  const backendUrl = 'https://be-api.cloudpilot.coursepanel.in'
   const classes = useStyles();
 
-  {/*
-{
-  answer:project,
-  source_docs:[
-    {excerpt:string,
-    source:string,
-    title:string}
-  ]
-}
-*/}
-  // Dummy project data
-  const project = {
-    title: 'Name of the Project',
-    introduction: 'Project introduction goes here...',
-    layers: [
-      {
-        name: 'Name of Layer 1',
-        services: ['Service 1', 'Service 2'],
-        purpose: 'Purpose of Layer 1',
-        key_features: [
-          {
-            feature: 'Feature 1',
-            explanation: 'Explanation of Feature 1...',
-          },
-          {
-            feature: 'Feature 2',
-            explanation: 'Explanation of Feature 2...',
-          },
-        ],
-      },
-      // Add more layers as needed
-    ],
-    summary: 'Project summary goes here...',
-  };
-
-
-
   return (
-    <Paper elevation={3} className={classes.root}>
-      <Typography variant="h4" gutterBottom>
-        {project.title}
-      </Typography>
-      <Typography variant="body1" gutterBottom>
-        {project.introduction}
-      </Typography>
-
-      {project.layers.map((layer) => (
-        <div key={layer.name} className={classes.layer}>
-          <Typography variant="h5" className={classes.layerName}>
-            Layer: {layer.name}
+    <div className={classes.root}>
+      <Card>
+        <CardContent>
+          <Typography variant="h4" className={classes.title}>
+            {project.title}
           </Typography>
-          <Typography variant="body1" className={classes.listItemText}>
-            <strong>Purpose:</strong> {layer.purpose}
-          </Typography>
-          <Typography variant="body1" className={classes.listItemText}>
-            <strong>Services:</strong> {layer.services.join(', ')}
-          </Typography>
-          <Typography variant="body1" className={classes.listItemText}>
-            <strong>Key Features:</strong>
+          <img width="300px" src="https://cloudpilot-systems-design-diagrams.s3.amazonaws.com/diagrams/8f69a890100960d2.png" />
+          <Typography variant="body1">{project.introduction}</Typography>
+          {project.layers.map((layer, index) => (
+            <div key={index} className={classes.layer}>
+              <Typography variant="h6" className={classes.layerTitle}>
+                {layer.title}
+              </Typography>
+              <Typography variant="subtitle1">Purpose: {layer.purpose}</Typography>
+              <Typography variant="subtitle1">Services:</Typography>
+              <List dense>
+                {layer.services.map((service, idx) => (
+                  <ListItem key={idx}>
+                    <ListItemText primary={service} />
+                  </ListItem>
+                ))}
+              </List>
+              <Typography variant="subtitle1">Key Features:</Typography>
+              <List dense className={classes.features}>
+                {layer.key_features.map((feature, idx) => (
+                  <ExpansionPanel key={idx} className={classes.expansionPanel}>
+                    <ExpansionPanelSummary
+                      expandIcon={<ExpandMoreIcon />}
+                    >
+                      <Typography>{feature.feature}</Typography>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                      <Typography>{feature.explanation}</Typography>
+                    </ExpansionPanelDetails>
+                  </ExpansionPanel>
+                ))}
+              </List>
+            </div>
+          ))}
+          <Divider />
+          <Typography variant="h6" className={classes.title}>
+            Source Documents
           </Typography>
           <List dense>
-            {layer.key_features.map((feature) => (
-              <React.Fragment key={feature.feature}>
-                <ListItem className={classes.listItem}>
-                  <ListItemText
-                    primary={feature.feature}
-                    secondary={feature.explanation}
-                  />
-                </ListItem>
-                <Divider />
-              </React.Fragment>
+            {project.source_docs.map((doc, idx) => (
+              <ListItem key={idx}>
+                <ListItemText primary={doc.title} secondary={doc.source} />
+              </ListItem>
             ))}
           </List>
-        </div>
-      ))}
-
-      <Typography variant="body1" className={classes.summary}>
-        <strong>Summary:</strong> {project.summary}
-      </Typography>
-    </Paper>
+        </CardContent>
+      </Card>
+      <CodeDisplay />
+    </div>
   );
 };
 

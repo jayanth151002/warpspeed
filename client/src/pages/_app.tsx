@@ -2,6 +2,7 @@ import type { AppProps } from 'next/app';
 import { Provider } from 'react-redux';
 // Importing all the global styles & styles from ant design
 import '../styles/globals.css';
+import toast, { Toaster } from 'react-hot-toast';
 
 import store, { persistor } from '../redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -14,7 +15,7 @@ function MyApp({ Component, pageProps }: any) {
         <Component {...pageProps} />
       </PersistGate>
     </Provider>
-  );
+  )
 }
 
 export default MyApp;

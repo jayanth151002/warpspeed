@@ -17,6 +17,7 @@ import {
   updateQuestions,
   updateBizProblem,
 } from '../redux/slices/activeEntities';
+import { API_URL } from '../constants';
 
 export default function BizProblem() {
   const questionsNew = useAppSelector(
@@ -37,7 +38,7 @@ export default function BizProblem() {
 
     axios
       .post(
-        `${process.env.BACKEND_URL}/prompts/generateQuestions`,
+        `${API_URL}/prompts/generateQuestions`,
         {
           bizProb: bizProblemNew,
         },
